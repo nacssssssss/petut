@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Page with Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            box-sizing: border-box;
+        }
+
+        header {
+            background: linear-gradient(90deg, #4267B2, #0044cc);
+            color: #fff;
+            padding: 15px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 30px;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+            width: 100%;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2.5em;
+            margin-bottom: 30px;
+        }
+
+        .login-form {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1em;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .group-page {
+            display: none;
+        }
+
+        .section {
+            display: none;
+            margin-bottom: 30px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .section.active {
+            display: block;
+            opacity: 1;
+            animation: slideIn 1s ease-out forwards;
+        }
+
+        .section.fadeOut {
+            animation: fadeOut 0.5s ease-in forwards;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+            }
+            to {
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        .logout {
+            margin-top: 20px;
+            display: none;
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            font-size: 1em;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .profile-pic {
+            cursor: pointer;
+            transition: transform 0.3s ease-in-out;
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #007BFF;
+        }
+
+        .profile-pic:hover {
+            transform: scale(1.1);
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+            z-index: 1000;
+            width: 300px;
+        }
+
+        .popup img {
+            width: 100%;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        .popup h3 {
+            margin: 10px 0;
+            font-size: 1.5em;
+        }
+
+        .popup p {
+            font-size: 1em;
+            color: #555;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Group</h1>
+    </header>
+    <div class="container">
+        <div class="login-form">
+            <h1>Login</h1>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" placeholder="Enter your username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" placeholder="Enter your password">
+            </div>
+            <button class="btn" onclick="login()">Login</button>
+        </div>
+
+        <div class="group-page">
+            <div id="page1" class="section">
+                <h2>Precious's Information</h2>
+                <img src="petut.jpg" alt="Member 1 Profile Picture" class="profile-pic" onclick="showPopup(1)">
+                <p><strong>Name:</strong> Precious Andrea D. Labasan</p>
+                <p><strong>Email:</strong> preciousandrealabasan@goodsam.edu.ph</p>
+                <p><a href="https://www.facebook.com/harm.levies.3?mibextid=ZbWKwL" target="_blank">View Facebook Profile</a></p>
+            </div>
+
+            <div id="page2" class="section">
+                <h2> Francine's Information</h2>
+                <img src="francine.jpg" alt="Member 2 Profile Picture" class="profile-pic" onclick="showPopup(2)">
+                <p><strong>Name: </strong>Francine G. Mariano</p>
+                <p><strong>Email: </strong>francinemariano@goodsam.edu.ph</p>
+                <p><a href="https://www.facebook.com/share/1AYSUcX5BL/?mibextid=LQQJ4d" target="_blank">View Facebook Profile</a></p>
+            </div>
+
+            <div id="page3" class="section">
+                <h2> Jillianne's Information</h2>
+                <img src="jillianne.jpg" alt="Member 3 Profile Picture" class="profile-pic" onclick="showPopup(3)">
+                <p><strong>Name:</strong> Jillianne Baliao Della</p>
+                <p><strong>Email:</strong> jillianedella@goodsam.edu.ph</p>
+                <p><a href="https://www.facebook.com/share/19a93NMdA6/?mibextid=LQQJ4d" target="_blank">View Facebook Profile</a></p>
+            </div>
+
+            <div id="page4" class="section">
+                <h2>Shanice's Information</h2>
+                <img src="Shanice.jpg"alt="Member 4 Profile Picture" class="profile-pic" onclick="showPopup(4)">
+                <p><strong>Name:</strong> Shanice Doringo Bunagin</p>
+                <p><strong>Email:</strong> shanicebunagin@goodsam.edu.ph</p>
+                <p><a href="https://www.facebook.com/share/15MYgTkqPq/?mibextid=LQQJ4d" target="_blank">View Facebook Profile</a></p>
+            </div>
+
+            <button class="btn" id="prev-btn" onclick="prevPage()" style="display: none;">Previous Page</button>
+            <button class="btn" id="next-btn" onclick="nextPage()">Next Page</button>
+            <button class="btn logout" onclick="logout()">Logout</button>
+        </div>
+
+        <div class="popup" id="popup">
+            <img src="" alt="" id="popup-img">
+            <h3 id="popup-name"></h3>
+            <p id="popup-hobbies"></p>
+            <button class="btn" onclick="closePopup()">Close</button>
+        </div>
+
+        <div class="overlay" id="overlay" onclick="closePopup()"></div>
+    </div>
+
+    <script>
+        const loginForm = document.querySelector('.login-form');
+        const groupPage = document.querySelector('.group-page');
+        const sections = document.querySelectorAll('.section');
+        const nextButton = document.getElementById('next-btn');
+        const prevButton = document.getElementById('prev-btn');
+        const logoutButton = document.querySelector('.logout');
+
+        const popup = document.getElementById('popup');
+        const overlay = document.getElementById('overlay');
+        const popupImg = document.getElementById('popup-img');
+        const popupName = document.getElementById('popup-name');
+        const popupHobbies = document.getElementById('popup-hobbies');
+
+        let currentPage = 0;
+
+        const members = [
+            {
+                name: 'Precious Andrea D. Labasan',
+                hobbies: 'Reading, Traveling, Photography',
+                img: "petut.jpg",
+            },
+            {
+                name: 'Francine G. Mariano',
+                hobbies: 'Gaming, Cooking, Hiking',
+                img: 'francine.jpg',
+            },
+            {
+                name: 'Jillianne Baliao Della',
+                hobbies: 'Drawing, Running, Coding',
+                img: 'jillianne.jpg',
+            },
+            {
+                name: 'Shanice Doringo Bunagin',
+                hobbies: 'Dancing, Writing, Yoga',
+                img: 'Shanice.jpg',
+            },
+        ];
+
+        function showPage(index) {
+            sections.forEach((section, i) => {
+                section.classList.remove('active', 'fadeOut');
+                if (i === index) {
+                    section.classList.add('active');
+                }
+            });
+
+            prevButton.style.display = index > 0 ? 'block' : 'none';
+            nextButton.style.display = index < sections.length - 1 ? 'block' : 'none';
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (username === 'user' && password === 'password') {
+                loginForm.style.display = 'none';
+                groupPage.style.display = 'block';
+                logoutButton.style.display = 'block';
+                currentPage = 0;
+                showPage(currentPage);
+            } else {
+                alert('Invalid username or password!');
+            }
+        }
+
+        function nextPage() {
+            if (currentPage < sections.length - 1) {
+                sections[currentPage].classList.add('fadeOut');
+                currentPage++;
+                showPage(currentPage);
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 0) {
+                sections[currentPage].classList.add('fadeOut');
+                currentPage--;
+                showPage(currentPage);
+            }
+        }
+
+        function showPopup(index) {
+            const member = members[index - 1];
+            popupImg.src = member.img;
+            popupName.textContent = member.name;
+            popupHobbies.textContent = `Hobbies: ${member.hobbies}`;
+
+            popup.style.display = 'block';
+            overlay.style.display = 'block';
+        }
+
+        function closePopup() {
+            popup.style.display = 'none';
+            overlay.style.display = 'none';
+        }
+
+        function logout() {
+            loginForm.style.display = 'block';
+            groupPage.style.display = 'none';
+            logoutButton.style.display = 'none';
+        }
+    </script>
+</body>
+</html>
